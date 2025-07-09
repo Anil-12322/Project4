@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<head>
+  <title>Daily Planner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: skyblue;
+    }
+    .time-block {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .hour {
+      width: 80px;
+      font-weight: bold;
+    }
+    .task {
+      flex-grow: 1;
+      padding: 5px;
+    }
+    .priority {
+      width: 100px;
+    }
+    .save-btn {
+      margin-left: 10px;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+    .High { background-color: #f8d7da; }
+    .Medium { background-color: #fff3cd; }
+    .Low { background-color: #d4edda; }
+  </style>
+</head>
+<body>
+<h2>Daily Planner</h2>
+<div id="planner"></div>
+<script>
+  const planner = document.getElementById("planner");
+  for (let hour = 7; hour <= 22; hour++) {
+    const displayHour = hour > 12 ? `${hour - 12}:00 PM` : `${hour}:00 AM`;
+    const block = document.createElement("div");
+    block.className = "time-block";
+    const hourLabel = document.createElement("div");
+    hourLabel.className = "hour";
+    hourLabel.textContent = displayHour;
+    const input = document.createElement("input");
+    input.type = "text";
+    input.className = "task";
+    const priority = document.createElement("select");
+    priority.className = "priority";
+    ["", "High", "Medium", "Low"].forEach(level => {
+      const option = document.createElement("option");
+      option.value = level;
+      option.text = level;
+      priority.appendChild(option);
+    });
+    const complete = document.createElement("input");
+    complete.type = "checkbox";
+    complete.addEventListener("change", () => {
+      input.classList.toggle("completed", complete.checked);
+    });
+    const button = document.createElement("button");
+    button.textContent = "Save";
+    button.className = "save-btn";
+    button.addEventListener("click", () => {
+      const task = input.value;
+      const selected = priority.value;
+      input.className = `task ${selected}`;
+      alert(`Saved: ${displayHour} - ${task} [${selected}]`);
+    });
+    block.appendChild(hourLabel);
+    block.appendChild(input);
+    block.appendChild(priority);
+    block.appendChild(complete);
+    block.appendChild(button);
+    planner.appendChild(block);
+  }
+</script>
+</body>
+</html>
